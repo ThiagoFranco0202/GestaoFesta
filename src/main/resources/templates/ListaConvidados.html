@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width" />
+    <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+
+    <title>Lista de Convidados</title>
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="panel panel-default" style="margin: 10px">
+        <div class="panel-heading">
+            <h1 class="panel-title">Lista de convidados</h1>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline" method="POST" th:object="${convidado}" th:action="@{/convidados}" style="margin: 20px 0">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/>
+                    <input type="text" class="form-control" th:field="*{quantidadeAcompanhantes}" placeholder="Acompanhantes"/>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Acompanhantes</th>
+                        <th>Status</th>
+                        <th>Presença</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="convidado : ${convidados}">
+                    <td th:text="${convidado.nome}"></td>
+                    <td th:text="${convidado.quantidadeAcompanhantes}"></td>
+                    <td th:text="${convidado.confirmado} ? 'Confirmado' : 'Não Confirmado'"></td>
+                    <td>
+                        <button th:value = ${convidado.id} class="btn btn-primary confirm-button">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                        </button>
+                    </td>
+                    <td>
+                        <button th:value = ${convidado.id} class="btn btn-primary delete-button">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"> </script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"> </script>
+    <script type="text/javascript" th:src="@{/scripts.js}"></script>
+</body>
+</html>
